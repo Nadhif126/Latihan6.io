@@ -1,0 +1,836 @@
+/*===== VARIABLES CSS =====*/
+:root {
+  --header-height: 3rem;
+  --font-semi: 600;
+  /*===== Colores =====*/
+  /*Purple 260 - Red 355 - Blue 224 - Pink 340*/
+  /* HSL color mode */
+  --hue-color: 224;
+  --first-color: hsl(var(--hue-color), 89%, 60%);
+  --second-color: hsl(var(--hue-color), 56%, 12%);
+  /*===== Fuente y tipografia =====*/
+  --body-font: "Poppins", sans-serif;
+  --big-font-size: 2rem;
+  --h2-font-size: 1.25rem;
+  --normal-font-size: .938rem;
+  --smaller-font-size: .75rem;
+  /*===== Margenes =====*/
+  --mb-2: 1rem;
+  --mb-4: 2rem;
+  --mb-5: 2.5rem;
+  --mb-6: 3rem;
+  /*===== z index =====*/
+  --z-back: -10;
+  --z-fixed: 100;
+}
+
+@media screen and (min-width: 968px) {
+  :root {
+    --big-font-size: 3.5rem;
+    --h2-font-size: 2rem;
+    --normal-font-size: 1rem;
+    --smaller-font-size: .875rem;
+  }
+}
+
+/*===== BASE =====*/
+*, ::before, ::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: var(--header-height) 0 0 0;
+  font-family: var(--body-font);
+  font-size: var(--normal-font-size);
+  color: var(--second-color);
+  position: relative;
+  overflow-x: hidden;
+}
+
+h1, h2, p {
+  margin: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/*===== BLOOD VISUAL EFFECT =====*/
+.blood-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.blood-drop {
+  position: absolute;
+  width: 4px;
+  height: 20px;
+  background: linear-gradient(to bottom, rgba(255, 0, 0, 0.8), rgba(139, 0, 0, 0.8));
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  animation: blood-fall linear infinite;
+}
+
+.blood-drop:nth-child(odd) {
+  animation-delay: -2s;
+}
+
+.blood-drop:nth-child(even) {
+  animation-delay: -4s;
+}
+
+@keyframes blood-fall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Generate multiple blood drops */
+.blood-container::before,
+.blood-container::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.blood-container .blood-drop:nth-child(1) { left: 10%; animation-duration: 8s; }
+.blood-container .blood-drop:nth-child(2) { left: 20%; animation-duration: 10s; }
+.blood-container .blood-drop:nth-child(3) { left: 30%; animation-duration: 12s; }
+.blood-container .blood-drop:nth-child(4) { left: 40%; animation-duration: 9s; }
+.blood-container .blood-drop:nth-child(5) { left: 50%; animation-duration: 11s; }
+.blood-container .blood-drop:nth-child(6) { left: 60%; animation-duration: 13s; }
+.blood-container .blood-drop:nth-child(7) { left: 70%; animation-duration: 8.5s; }
+.blood-container .blood-drop:nth-child(8) { left: 80%; animation-duration: 10.5s; }
+.blood-container .blood-drop:nth-child(9) { left: 90%; animation-duration: 12.5s; }
+.blood-container .blood-drop:nth-child(10) { left: 15%; animation-duration: 9.5s; }
+.blood-container .blood-drop:nth-child(11) { left: 25%; animation-duration: 11.5s; }
+.blood-container .blood-drop:nth-child(12) { left: 35%; animation-duration: 13.5s; }
+.blood-container .blood-drop:nth-child(13) { left: 45%; animation-duration: 8.2s; }
+.blood-container .blood-drop:nth-child(14) { left: 55%; animation-duration: 10.2s; }
+.blood-container .blood-drop:nth-child(15) { left: 65%; animation-duration: 12.2s; }
+
+/*===== CLASS CSS ===== */
+.section-title {
+  position: relative;
+  font-size: var(--h2-font-size);
+  color: var(--first-color);
+  margin-top: var(--mb-2);
+  margin-bottom: var(--mb-4);
+  text-align: center;
+}
+
+.section-title::after {
+  position: absolute;
+  content: "";
+  width: 64px;
+  height: 0.18rem;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 2rem;
+  background-color: var(--first-color);
+}
+
+.section {
+  padding-top: 3rem;
+  padding-bottom: 2rem;
+}
+
+/*===== LAYOUT =====*/
+.bd-grid {
+  max-width: 1024px;
+  display: grid;
+  margin-left: var(--mb-2);
+  margin-right: var(--mb-2);
+}
+
+.l-header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-fixed);
+  background-color: #fff;
+  box-shadow: 0 1px 4px rgba(146, 161, 176, 0.15);
+}
+
+/*===== NAV =====*/
+.nav {
+  height: var(--header-height);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: var(--font-semi);
+}
+
+@media screen and (max-width: 767px) {
+  .nav__menu {
+    position: fixed;
+    top: var(--header-height);
+    right: -100%;
+    width: 80%;
+    height: 100%;
+    padding: 2rem;
+    background-color: var(--second-color);
+    transition: 0.5s;
+  }
+}
+
+.nav__item {
+  margin-bottom: var(--mb-4);
+}
+
+.nav__link {
+  position: relative;
+  color: #fff;
+}
+
+.nav__link:hover {
+  position: relative;
+}
+
+.nav__link:hover::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 0.18rem;
+  left: 0;
+  top: 2rem;
+  background-color: var(--first-color);
+}
+
+.nav__logo {
+  color: var(--second-color);
+}
+
+.nav__toggle {
+  color: var(--second-color);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/*Active menu*/
+.active-link::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 0.18rem;
+  left: 0;
+  top: 2rem;
+  background-color: var(--first-color);
+}
+
+/*=== Show menu ===*/
+.show {
+  right: 0;
+}
+
+/*===== HOME =====*/
+.home {
+  position: relative;
+  row-gap: 5rem;
+  padding: 4rem 0 5rem;
+}
+
+.home__data {
+  align-self: center;
+}
+
+.home__title {
+  font-size: var(--big-font-size);
+  margin-bottom: var(--mb-5);
+}
+
+.home__title-color {
+  color: var(--first-color);
+}
+
+.home__social {
+  display: flex;
+  flex-direction: column;
+}
+
+.home__social-icon {
+  width: max-content;
+  margin-bottom: var(--mb-2);
+  font-size: 1.5rem;
+  color: var(--second-color);
+}
+
+.home__social-icon:hover {
+  color: var(--first-color);
+}
+
+.home__img {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 260px;
+}
+
+.home__blob {
+  fill: var(--first-color);
+}
+
+.home__blob-img {
+  width: 360px;
+}
+
+/*BUTTONS*/
+.button {
+  display: inline-block;
+  background-color: var(--first-color);
+  color: #fff;
+  padding: 0.75rem 2.5rem;
+  font-weight: var(--font-semi);
+  border-radius: 0.5rem;
+  transition: 0.3s;
+}
+
+.button:hover {
+  box-shadow: 0px 10px 36px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== ABOUT =====*/
+.about__container {
+  row-gap: 2rem;
+  text-align: center;
+}
+
+.about__subtitle {
+  margin-bottom: var(--mb-2);
+}
+
+.about__img {
+  justify-self: center;
+}
+
+.about__img img {
+  width: 200px;
+  border-radius: 0.5rem;
+}
+
+/* ===== SKILLS =====*/
+.skills__container {
+  row-gap: 2rem;
+  text-align: center;
+}
+
+.skills__subtitle {
+  margin-bottom: var(--mb-2);
+}
+
+.skills__text {
+  margin-bottom: var(--mb-4);
+}
+
+.skills__data {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  font-weight: var(--font-semi);
+  padding: 0.5rem 1rem;
+  margin-bottom: var(--mb-4);
+  border-radius: 0.5rem;
+  box-shadow: 0px 4px 25px rgba(14, 36, 49, 0.15);
+}
+
+.skills__icon {
+  font-size: 2rem;
+  margin-right: var(--mb-2);
+  color: var(--first-color);
+}
+
+.skills__names {
+  display: flex;
+  align-items: center;
+}
+
+.skills__bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background-color: var(--first-color);
+  height: 0.25rem;
+  border-radius: 0.5rem;
+  z-index: var(--z-back);
+}
+
+.skills__html {
+  width: 95%;
+}
+
+.skills__css {
+  width: 85%;
+}
+
+.skills__js {
+  width: 65%;
+}
+
+.skills__ux {
+  width: 85%;
+}
+
+.skills__img {
+  border-radius: 0.5rem;
+}
+
+/* ===== WORK =====*/
+.work__container {
+  row-gap: 2rem;
+}
+
+.work__img {
+  box-shadow: 0px 4px 25px rgba(14, 36, 49, 0.15);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.work__img img {
+  transition: 1s;
+}
+
+.work__img img:hover {
+  transform: scale(1.1);
+}
+
+/* ===== CONTACT =====*/
+.contact__input {
+  width: 100%;
+  font-size: var(--normal-font-size);
+  font-weight: var(--font-semi);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1.5px solid var(--second-color);
+  outline: none;
+  margin-bottom: var(--mb-4);
+}
+
+.contact__button {
+  display: block;
+  border: none;
+  outline: none;
+  font-size: var(--normal-font-size);
+  cursor: pointer;
+  margin-left: auto;
+}
+
+/* ===== FOOTER =====*/
+.footer {
+  background-color: var(--second-color);
+  color: #fff;
+  text-align: center;
+  font-weight: var(--font-semi);
+  padding: 2rem 0;
+}
+
+.footer__title {
+  font-size: 2rem;
+  margin-bottom: var(--mb-4);
+}
+
+.footer__social {
+  margin-bottom: var(--mb-4);
+}
+
+.footer__icon {
+  font-size: 1.5rem;
+  color: #fff;
+  margin: 0 var(--mb-2);
+}
+
+.footer__copy {
+  font-size: var(--smaller-font-size);
+}
+
+/* ===== MEDIA QUERIES=====*/
+@media screen and (max-width: 320px) {
+  .home {
+    row-gap: 2rem;
+  }
+  .home__img {
+    width: 200px;
+  }
+}
+
+@media screen and (min-width: 576px) {
+  .home {
+    padding: 4rem 0 2rem;
+  }
+  .home__social {
+    padding-top: 0;
+    padding-bottom: 2.5rem;
+    flex-direction: row;
+    align-self: flex-end;
+  }
+  .home__social-icon {
+    margin-bottom: 0;
+    margin-right: var(--mb-4);
+  }
+  .home__img {
+    width: 300px;
+    bottom: 25%;
+  }
+  .about__container {
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+    text-align: initial;
+  }
+  .skills__container {
+    grid-template-columns: 0.7fr;
+    justify-content: center;
+    column-gap: 1rem;
+  }
+  .work__container {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 2rem;
+    padding-top: 2rem;
+  }
+  .contact__form {
+    width: 360px;
+    padding-top: 2rem;
+  }
+  .contact__container {
+    justify-items: center;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  body {
+    margin: 0;
+  }
+  .section {
+    padding-top: 4rem;
+    padding-bottom: 3rem;
+  }
+  .section-title {
+    margin-bottom: var(--mb-6);
+  }
+  .section-title::after {
+    width: 80px;
+    top: 3rem;
+  }
+  .nav {
+    height: calc(var(--header-height) + 1.5rem);
+  }
+  .nav__list {
+    display: flex;
+    padding-top: 0;
+  }
+  .nav__item {
+    margin-left: var(--mb-6);
+    margin-bottom: 0;
+  }
+  .nav__toggle {
+    display: none;
+  }
+  .nav__link {
+    color: var(--second-color);
+  }
+  .home {
+    padding: 8rem 0 2rem;
+  }
+  .home__img {
+    width: 400px;
+    bottom: 10%;
+  }
+  .about__container {
+    padding-top: 2rem;
+  }
+  .about__img img {
+    width: 300px;
+  }
+  .skills__container {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 2rem;
+    align-items: center;
+    text-align: initial;
+  }
+  .work__container {
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 2rem;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .bd-grid {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .home {
+    padding: 10rem 0 2rem;
+  }
+  .home__img {
+    width: 450px;
+  }
+}
+
+/* ===== ANIMATED BLOOD DRIP EFFECT ===== */
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 180px;
+    background: linear-gradient(to bottom, rgba(120, 0, 0, 1), rgba(120, 0, 0, 0.5));
+    clip-path: polygon(
+        0% 0%, 
+        100% 0%, 
+        100% 60%, 
+        85% 70%, 
+        75% 60%, 
+        60% 75%, 
+        50% 60%, 
+        40% 80%, 
+        30% 60%, 
+        15% 70%, 
+        0% 60%
+    );
+    z-index: 9999;
+    pointer-events: none;
+    animation: dripMoving 4s ease-in-out infinite;
+}
+
+/* Animasi menggerakkan tetesan darah turun-naik */
+@keyframes dripMoving {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(15px); }
+    100% { transform: translateY(0); }
+}
+
+/* Tambahan tetesan kecil jatuh ke bawah */
+.blood-drop {
+    position: fixed;
+    top: 0;
+    width: 6px;
+    height: 20px;
+    background: rgba(120, 0, 0, 1);
+    border-radius: 3px;
+    animation: dropFall 2.5s infinite ease-in;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+/* Animasi tetesan jatuh */
+@keyframes dropFall {
+    0% { transform: translateY(0) scaleY(1); opacity: 1; }
+    80% { transform: translateY(120px) scaleY(1.4); opacity: 0.8; }
+    100% { transform: translateY(150px) scaleY(1.8); opacity: 0; }
+}
+
+
+
+  /* ================================ */
+/* LAYER 1 — BACKGROUND WEBSITE     */
+/* ================================ */
+
+#blood-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -10;        /* paling belakang */
+    pointer-events: none;
+    background: 
+        url("https://i.imgur.com/Z7CUNf4.png") center/cover no-repeat;
+    opacity: 0.4;        /* efek lembut */
+}
+
+
+/* ===================================== */
+/* LAYER 2 — TETESAN DARAH (ANIMASI)     */
+/* ===================================== */
+
+.blood-drop {
+    position: fixed;
+    top: -40px;
+    width: 6px;
+    height: 20px;
+    background: rgb(120, 0, 0);
+    border-radius: 3px;
+    z-index: -5;         /* tetap di belakang konten, TAPI di depan background */
+    pointer-events: none;
+    animation: fall 3s infinite ease-in;
+}
+
+@keyframes fall {
+    0% { transform: translateY(0) scaleY(1); opacity: 1; }
+    70% { transform: translateY(70vh) scaleY(1.3); opacity: 0.9; }
+    100% { transform: translateY(100vh) scaleY(1.6); opacity: 0; }
+}
+
+
+/* ===================================== */
+/* LAYER 3 — KONTEN WEBSITE (normal)     */
+/* ===================================== */
+
+body, .l-main, header, section {
+    position: relative;
+    z-index: 1;           /* konten paling depan */
+}
+
+/* ===== WELCOME SCREEN ===== */
+#welcome-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: fadeOut 1s ease forwards;
+    animation-delay: 4s; /* waktu tampil sebelum hilang */
+}
+
+/* Tulisan darah */
+.bloody-text {
+    font-size: 4rem;
+    color: red;
+    font-family: 'Anton', sans-serif;
+    text-shadow: 0 0 20px rgba(255,0,0,0.8);
+    position: relative;
+    animation: drip 1.5s infinite;
+}
+
+/* Tetesan darah dari teks */
+.bloody-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 6px;
+    height: 35px;
+    background: red;
+    border-radius: 50%;
+    transform: translateX(-50%);
+    animation: drop 1.2s infinite;
+}
+
+/* Bayangan tangan */
+.shadow-hand {
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(
+        rgba(0,0,0,0.7), 
+        rgba(0,0,0,0) 70%
+    );
+    border-radius: 50%;
+    filter: blur(12px);
+    margin-top: 40px;
+    animation: pulse 2s infinite;
+}
+
+/* Animasi tetesan */
+@keyframes drop {
+    0% { transform: translate(-50%, 0); opacity: 1; height: 10px; }
+    100% { transform: translate(-50%, 80px); opacity: 0; height: 35px; }
+}
+
+/* Animasi teks seperti berdarah */
+@keyframes drip {
+    0% { text-shadow: 0 0 10px red; }
+    50% { text-shadow: 0 0 25px darkred; }
+    100% { text-shadow: 0 0 10px red; }
+}
+
+/* Animasi tangan samar */
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.07); opacity: 0.55; }
+    100% { transform: scale(1); opacity: 0.7; }
+}
+
+/* Welcome screen hilang */
+@keyframes fadeOut {
+    to { opacity: 0; visibility: hidden; }
+}
+/* ====== HILANGKAN SEMUA BACKGROUND GAMBAR ====== */
+
+/* Hilangkan background image pada body */
+body {
+    background-image: none !important;    /* pastikan gambar dihapus */
+}
+
+/* Jika ada elemen blood-bg yang memakai gambar */
+#blood-bg {
+    background: none !important;          /* hilangkan gambar */
+}
+
+
+}
+.hand-silhouette {
+    fill: rgba(0, 0, 0, 0.45);
+    transition: 0.3s ease;
+}
+
+.hand-silhouette:hover {
+    fill: rgba(0, 0, 0, 0.6);
+}
+.hand-silhouette {
+    fill: rgba(0, 0, 0, 0.5);
+    filter: drop-shadow(0 0 8px red);
+}
+#changing-text {
+    transition: opacity 0.4s ease;
+}
+#changing-text {
+    display: inline-block;
+    transition: opacity 0.4s ease-in-out;
+}
+
+#blood-container {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: red;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 1s ease, transform 1.2s ease;
+}
+
+#aboutPhoto {
+    transition: opacity 0.5s ease;
+}
+
